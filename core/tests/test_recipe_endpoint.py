@@ -24,10 +24,13 @@ class RecipeApiTests(TestCase):
 
     def test_retrieve_recipes(self):
         """Retrieving a list of recipes"""
+        sample_recipe(name="")
         sample_recipe()
-        sample_recipe(name='sample recipe 2')
         res = self.client.get(RECIPES_URL)
-        recipes = Recipe.objects.all().order_by('-id')
+        recipes = Recipe.objects.all().order_by('id')
         serializer = RecipeSerializer(recipes, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
+
+    # def test_filter_recipes_by_name(self):
+        
