@@ -42,13 +42,13 @@ class RecipeApiTests(TestCase):
         expected_data = {
             'data': [
                 {
-                    'id': res.data[0]['id'],
+                    'id': Recipe.objects.all().order_by('id')[:2][0].id,
                     'name': 'Sample recipe',
                     'description': 'This is a sample recipe',
                     'ingredients': [{'name': 'Ingredient 1'},{'name': 'Ingredient 2'}]
                 },
                 {
-                    'id': res.data[1]['id'],
+                    'id': Recipe.objects.all().order_by('id')[:2][1].id,
                     'name': 'Another one',
                     'description': 'This is a sample recipe',
                     'ingredients': [{'name': 'Ingredient 1'},{'name': 'Ingredient 2'}]
