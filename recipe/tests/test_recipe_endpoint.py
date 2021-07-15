@@ -63,7 +63,6 @@ class RecipeApiTests(TestCase):
             ]
         }
         res = self.client.post(RECIPES_URL, payload, format='json')
-        print(res.status_code)
         recipe = Recipe.objects.get(id=res.data['id'])
         ingredients = recipe.ingredients.all()
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)

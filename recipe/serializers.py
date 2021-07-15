@@ -21,11 +21,12 @@ class RecipeSerializer(serializers.ModelSerializer):
         read_only_fields = ('id',)
 
     def create(self, data):
+        ingredients_data = data.pop('ingredients')
         recipe = Recipe.objects.create(**data)
-        # if 'ingredients' in data:
-        #     ingredients_data = data.pop('ingredients')
-        #     for i in ingredients_data:
-        #         Ingredient.objects.create(**i, recipe=recipe)
+        if ingredients_data:
+            for i in ingredients_data:
+                ingredient = Ingredient.objects.create(**i, recipe=recipe)
+                recipe.ingredients.add(ingredient)
         return recipe
 
     def update(self, instance, data):
