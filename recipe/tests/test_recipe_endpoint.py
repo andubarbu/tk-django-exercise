@@ -1,10 +1,10 @@
 from django.test import TestCase
-from django.test.testcases import SerializeMixin
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 from core.models import Ingredient, Recipe
 from recipe.serializers import RecipeSerializer
+import json
 
 
 RECIPES_URL = reverse('recipe:recipe-list')
@@ -39,10 +39,25 @@ class RecipeApiTests(TestCase):
         sample_recipe()
         sample_recipe(name="Another one")
         res = self.client.get(RECIPES_URL)
-        recipes = Recipe.objects.all().order_by('id')
-        serializer = RecipeSerializer(recipes, many=True)
+        expected_data = {
+            'data': [
+                {
+                    'id': res.data[0]['id'],
+                    'name': 'Sample recipe',
+                    'description': 'This is a sample recipe',
+                    'ingredients': [{'name': 'Ingredient 1'},{'name': 'Ingredient 2'}]
+                },
+                {
+                    'id': res.data[1]['id'],
+                    'name': 'Another one',
+                    'description': 'This is a sample recipe',
+                    'ingredients': [{'name': 'Ingredient 1'},{'name': 'Ingredient 2'}]
+                },
+            ]
+        }
+        response = res.json()
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(res.data, serializer.data)
+        self.assertEqual(response, expected_data['data'])
 
     def test_retrieve_recipe_detail(self):
         """Retrieving a specific recipe"""
