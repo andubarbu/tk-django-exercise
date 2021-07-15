@@ -12,7 +12,7 @@ class ModelsTests(TestCase):
         self.assertEqual(str(recipe), recipe.name)
 
     def test_ingredient_str(self):
-        """Test ingredient string representation and """
+        """Test ingredient string representation"""
         recipe = models.Recipe.objects.create(name='Sample recipe', description='sample recipe decription')
         ingredient = models.Ingredient.objects.create(
             name='Tomato',
