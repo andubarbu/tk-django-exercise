@@ -4,7 +4,6 @@ from rest_framework import status
 from rest_framework.test import APIClient
 from core.models import Ingredient, Recipe
 from recipe.serializers import RecipeSerializer
-import operator
 
 
 RECIPES_URL = reverse('recipe:recipe-list')
@@ -56,9 +55,8 @@ class RecipeApiTests(TestCase):
             ]
         }
         response = res.json()
-        sorted_json = sorted(response, key=lambda x: x["id"])
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(sorted_json, expected_data['data'])
+        self.assertEqual(response, expected_data['data'])
 
     def test_retrieve_recipe_detail(self):
         """Retrieving a specific recipe"""

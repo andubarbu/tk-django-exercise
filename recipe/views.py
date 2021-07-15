@@ -9,7 +9,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         """Retrieve recipes"""
-        queryset = Recipe.objects.all()
+        queryset = Recipe.objects.all().order_by('id')
         name_filter = self.request.query_params.get('name')
         if name_filter is not None:
             queryset = queryset.filter(name__icontains=name_filter)
