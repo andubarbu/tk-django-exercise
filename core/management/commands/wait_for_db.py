@@ -1,3 +1,4 @@
+from core.models import Ingredient
 import time
 from django.db import connections
 from django.db.utils import OperationalError
